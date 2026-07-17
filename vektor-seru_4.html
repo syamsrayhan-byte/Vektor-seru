@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petualangan Vektor 🚀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFCF3;
+    --paper:#FFFFFF;
+    --ink:#33305A;
+    --muted:#7A759C;
+    --coral:#FF6F61;
+    --teal:#2FC9BC;   /* vektor A */
+    --sun:#FFC93C;    /* vektor B */
+    --grape:#9B7EDE;  /* resultan R */
+    --mint:#DFF7EE;
+    --sky:#E8F3FF;
+    --pink:#FFE3EC;
+    --line:#EFE7FF;
+    --shadow: 0 6px 0 rgba(51,48,90,0.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 12%, #FFEFD8 0%, transparent 40%),
+      radial-gradient(circle at 92% 8%, #E4F7F2 0%, transparent 38%),
+      radial-gradient(circle at 85% 90%, #F3E9FF 0%, transparent 45%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Nunito',sans-serif;
+    line-height:1.6;
+    min-height:100vh;
+  }
+  h1,h2,h3,h4{font-family:'Baloo 2',sans-serif; margin:0 0 .4em 0; letter-spacing:0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  b{color:var(--ink);}
+
+  .app{display:flex; min-height:100vh;}
+  .sidebar{
+    width:250px; flex:0 0 250px; background:var(--paper);
+    border-right:4px solid var(--line); position:sticky; top:0; height:100vh;
+    padding:22px 14px; overflow-y:auto;
+  }
+  .brand{padding:4px 8px 18px 8px; text-align:center;}
+  .brand .mascot{width:78px; margin:0 auto 6px auto; display:block;}
+  .brand .tag{font-size:12px; color:var(--coral); font-weight:800; text-transform:uppercase; letter-spacing:.08em;}
+  .brand h1{font-size:21px; color:var(--grape); margin-top:2px;}
+
+  .xpbar{background:var(--mint); border-radius:14px; padding:10px 12px; margin:10px 0 18px 0; border:2.5px solid #C7EFDE;}
+  .xpbar .lbl{font-size:11.5px; font-weight:800; color:#1E9C86; display:flex; justify-content:space-between; margin-bottom:5px;}
+  .xpbar .track{background:#fff; border-radius:99px; height:10px; overflow:hidden; border:2px solid #C7EFDE;}
+  .xpbar .fill{background:linear-gradient(90deg,var(--teal),var(--grape)); height:100%; width:0%; border-radius:99px; transition:width .4s ease;}
+
+  .navlist{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px;}
+  .navlist button{
+    width:100%; text-align:left; background:var(--paper); border:2.5px solid var(--line); color:var(--muted);
+    padding:10px 12px; border-radius:14px; font-size:13.5px; cursor:pointer; font-weight:700;
+    font-family:'Nunito',sans-serif; display:flex; gap:9px; align-items:center;
+    transition: transform .12s, background .15s, border-color .15s;
+  }
+  .navlist button .ic{font-size:18px;}
+  .navlist button:hover{transform:translateX(2px); border-color:var(--teal);}
+  .navlist button.active{background:linear-gradient(135deg,var(--teal),#61e0d4); color:#fff; border-color:var(--teal); box-shadow:var(--shadow);}
+  .navlist .quiz-link{margin-top:8px; padding-top:12px; border-top:3px dashed var(--line);}
+  .navlist .quiz-link button.active{background:linear-gradient(135deg,var(--coral),#ff9a8d); border-color:var(--coral);}
+
+  .main{flex:1; min-width:0; padding:34px 42px 100px 42px; max-width:960px;}
+  section{display:none;}
+  section.active{display:block; animation:pop .35s ease;}
+  @keyframes pop{from{opacity:0; transform:translateY(10px) scale(.99)} to{opacity:1; transform:translateY(0) scale(1)}}
+
+  .eyebrow{display:inline-flex; align-items:center; gap:6px; background:var(--pink); color:var(--coral); font-weight:800; font-size:12.5px; padding:5px 12px; border-radius:99px; margin-bottom:10px;}
+  .lede{color:var(--muted); font-size:16px; max-width:640px; margin-bottom:20px; font-weight:600;}
+  h1.title{font-size:32px; color:var(--ink);}
+
+  .card{
+    background:var(--paper); border:3px solid var(--line); border-radius:22px;
+    padding:20px 24px; margin-bottom:18px; box-shadow: var(--shadow);
+  }
+  .card h3{font-size:19px; color:var(--grape);}
+  .card h4{font-size:15px; color:var(--coral); margin-bottom:8px;}
+  .grid2{display:grid; grid-template-columns:1.1fr 1fr; gap:18px;}
+  @media (max-width:800px){.grid2{grid-template-columns:1fr;}}
+
+  .formula{
+    background:var(--sky); border:2.5px solid #CFE6FF; border-radius:14px;
+    padding:12px 18px; margin:10px 0; font-family:'JetBrains Mono',monospace;
+    font-size:15px; color:#2457B8; font-weight:600; overflow-x:auto;
+  }
+  .formula .label{display:block; color:#5C7FB0; font-size:11px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:5px; font-family:'Nunito',sans-serif; font-weight:800;}
+
+  .mascot-note{
+    display:flex; gap:12px; align-items:flex-start; background:var(--mint); border:2.5px solid #C7EFDE;
+    border-radius:18px; padding:14px 16px; margin:12px 0;
+  }
+  .mascot-note .m{width:44px; flex:0 0 44px;}
+  .mascot-note p{margin:0; font-weight:700; color:#1E7A6B; font-size:14.5px;}
+
+  .example{
+    border:2.5px dashed #FFD9CF; border-radius:16px; padding:14px 18px; margin:10px 0;
+    background:#FFF6F1;
+  }
+  .example .tag{font-size:11.5px; color:var(--coral); font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
+
+  .pill{display:inline-block; padding:3px 11px; border-radius:99px; font-size:12px; font-weight:800; margin-right:6px;}
+  .pill.a{background:#DFF7F4; color:#1E9C86;}
+  .pill.b{background:#FFF3D6; color:#B9860C;}
+  .pill.r{background:#F1E9FF; color:#6E48C9;}
+
+  ul.tight{margin:8px 0; padding-left:22px;}
+  ul.tight li{margin-bottom:6px; font-weight:600;}
+
+  /* BENCH */
+  .bench{background:var(--paper); border:3px solid var(--line); border-radius:24px; padding:22px; margin-bottom:26px; box-shadow:var(--shadow);}
+  .bench-top{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;}
+  .modebtns{display:flex; gap:6px; background:var(--sky); padding:5px; border-radius:14px; border:2.5px solid #CFE6FF;}
+  .modebtns button{background:none; border:none; color:#5C7FB0; font-weight:800; font-size:12.5px; padding:7px 13px; border-radius:10px; cursor:pointer;}
+  .modebtns button.active{background:var(--grape); color:#fff;}
+  .bench-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:20px;}
+  @media (max-width:800px){.bench-grid{grid-template-columns:1fr;}}
+  .controls .ctrl{margin-bottom:16px;}
+  .controls label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-bottom:6px; font-weight:800;}
+  .controls label span.val{color:var(--grape); font-weight:800;}
+  input[type=range]{width:100%; accent-color:var(--grape);}
+  .readout{background:var(--sky); border:2.5px solid #CFE6FF; border-radius:16px; padding:14px 16px; font-family:'JetBrains Mono',monospace; font-size:13px;}
+  .readout .row{display:flex; justify-content:space-between; padding:4px 0; border-bottom:1.5px dashed #CFE6FF;}
+  .readout .row:last-child{border-bottom:none;}
+  .readout .row b{color:var(--grape);}
+  svg{width:100%; height:auto; display:block; background:#fff; border-radius:16px; border:2.5px solid var(--line);}
+  svg.mascot-defs{
+    position:absolute !important; width:0 !important; height:0 !important;
+    overflow:hidden; border:none !important; background:none !important;
+    margin:0; padding:0; display:block;
+  }
+
+  /* QUIZ */
+  .qcard{background:var(--paper); border:3px solid var(--line); border-radius:20px; padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow);}
+  .qcard .qnum{font-weight:800; color:var(--coral); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;}
+  .qcard p.qtext{font-size:15.5px; margin:6px 0 12px 0; font-weight:700;}
+  .opt{display:block; width:100%; text-align:left; background:var(--sky); border:2.5px solid #CFE6FF; color:var(--ink); padding:11px 15px; border-radius:14px; margin-bottom:8px; cursor:pointer; font-size:14px; font-weight:700; transition:all .15s;}
+  .opt:hover{border-color:var(--grape); transform:translateX(2px);}
+  .opt.selected{border-color:var(--grape); background:#F1E9FF;}
+  .opt.correct{border-color:#33B27A; background:#DDF7E9; color:#1E8955;}
+  .opt.wrong{border-color:var(--coral); background:#FFE6E1; color:#D6493A;}
+  .opt:disabled{cursor:default;}
+  .explain{display:none; margin-top:10px; padding:12px 16px; background:#FFF8E6; border:2px dashed #FFD9CF; border-radius:14px; font-size:13.5px; color:#8A6A2E; font-weight:700; white-space:pre-line; line-height:1.7;}
+  .explain.show{display:block;}
+  .quizbar{position:sticky; bottom:14px; margin-top:10px; background:var(--paper); border:3px solid var(--line); border-radius:18px; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; box-shadow:var(--shadow);}
+  .btn{background:linear-gradient(135deg,var(--coral),#ff9a8d); color:#fff; border:none; padding:11px 22px; border-radius:14px; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; font-size:14.5px; box-shadow:0 4px 0 #E0503F;}
+  .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #E0503F;}
+  .btn.ghost{background:var(--paper); border:2.5px solid var(--line); color:var(--muted); box-shadow:none;}
+  .score{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; color:var(--grape);}
+
+  .practice-block{margin-top:24px;}
+  .practice-header{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .practice-header .ptag{background:var(--grape); color:#fff; font-weight:800; font-size:12.5px; padding:6px 14px; border-radius:99px;}
+  .practice-header p{margin:0; color:var(--muted); font-weight:700; font-size:13.5px;}
+  .miniq{background:var(--paper); border:3px dashed #E4DBFF; border-radius:20px; padding:16px 20px; margin-bottom:14px;}
+  .miniq .miniq-num{font-weight:800; color:var(--grape); font-size:12px; text-transform:uppercase; letter-spacing:.05em;}
+  .miniq p.miniq-text{font-size:15px; margin:5px 0 11px 0; font-weight:700;}
+  .miniopt{display:block; width:100%; text-align:left; background:var(--sky); border:2.5px solid #CFE6FF; color:var(--ink); padding:10px 14px; border-radius:14px; margin-bottom:7px; cursor:pointer; font-size:13.5px; font-weight:700; transition:all .15s;}
+  .miniopt:hover:not(:disabled){border-color:var(--grape); transform:translateX(2px);}
+  .miniopt.correct{border-color:#33B27A; background:#DDF7E9; color:#1E8955;}
+  .miniopt.wrong{border-color:var(--coral); background:#FFE6E1; color:#D6493A;}
+  .miniopt:disabled{cursor:default;}
+  .miniexplain{display:none; margin-top:9px; padding:11px 14px; background:#FFF8E6; border:2px dashed #FFD9CF; border-radius:12px; font-size:13px; color:#8A6A2E; font-weight:700;}
+  .miniexplain.show{display:block;}
+  .miniq-result{font-size:12.5px; font-weight:800; margin-top:6px;}
+  .miniq-result.ok{color:#1E8955;}
+  .miniq-result.no{color:#D6493A;}
+  .sarrus-wrap{margin:14px 0 6px 0;}
+  table.sarrus-grid{border-collapse:collapse; margin:8px 0;}
+  table.sarrus-grid td{
+    width:52px; height:44px; text-align:center; vertical-align:middle;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:15px; color:var(--ink);
+    background:var(--sky); border:2px solid #CFE6FF;
+  }
+  table.sarrus-grid td.copy{background:#F3F1FA; color:#9C97C2; border-style:dashed;}
+  table.sarrus-grid.mini td{width:40px; height:36px; font-size:13.5px;}
+  .sarrus-legend{display:flex; flex-direction:column; gap:8px; margin-top:6px;}
+  .sarrus-line{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; font-size:13.5px; font-weight:700; background:var(--paper); border:2px solid var(--line); border-radius:12px; padding:8px 12px;}
+  .sarrus-line .dot{width:12px; height:12px; border-radius:50%; flex:0 0 12px; margin-top:3px;}
+  .sarrus-line.pos .dot{background:#33B27A;}
+  .sarrus-line.neg .dot{background:var(--coral);}
+  .sarrus-line .mono{font-weight:600; color:var(--muted);}
+  .footspace{height:40px;}
+  .badge-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+  .badge{padding:8px 16px; border-radius:14px; font-weight:800; font-size:13px; border:2.5px solid;}
+  ::-webkit-scrollbar{width:9px; height:9px;}
+  ::-webkit-scrollbar-thumb{background:#E4DBFF; border-radius:6px;}
+
+  /* AUTHOR CARD */
+  .author-card{
+    display:flex; align-items:center; gap:12px; background:linear-gradient(135deg,#F1E9FF,#FFF3D6);
+    border:2.5px solid #E4DBFF; border-radius:16px; padding:12px 16px; margin:0 0 18px 0;
+  }
+  .author-card .ic{font-size:22px;}
+  .author-card .lbl{display:block; font-size:11px; color:var(--muted); font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
+  .author-card .name{display:block; font-size:15px; color:var(--grape); font-weight:800; font-family:'Baloo 2',sans-serif;}
+
+  /* SOURCES */
+  .sources{background:var(--paper); border:3px solid var(--line); border-radius:22px; padding:18px 22px; margin-top:20px;}
+  .sources h3{font-size:16px; color:var(--grape);}
+  .sources ol{margin:8px 0 0 0; padding-left:20px;}
+  .sources ol li{margin-bottom:6px; font-size:13.5px; color:var(--muted); font-weight:600;}
+
+  /* STUDENT ID + SUBMIT */
+  .student-card{background:var(--sky); border:2.5px solid #CFE6FF; border-radius:18px; padding:16px 18px; margin-bottom:16px;}
+  .student-card h4{font-size:14px; color:#2457B8; margin-bottom:10px;}
+  .attempt-note{margin:10px 0 0 0; font-size:12.5px; color:#5C7FB0; font-weight:700;}
+  .attempt-note.warn{color:#D6493A; font-weight:800;}
+
+  .result-banner{
+    background:linear-gradient(135deg,#F1E9FF,#E8F3FF); border:3px solid var(--grape);
+    border-radius:20px; padding:16px 20px; margin-bottom:16px;
+  }
+  .result-banner .rb-row{display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1.5px dashed #D9CBFF;}
+  .result-banner .rb-row:last-child{border-bottom:none;}
+  .result-banner .rb-label{color:var(--muted); font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.05em;}
+  .result-banner .rb-value{font-weight:800; font-size:14.5px; color:var(--ink);}
+  .result-banner .rb-row.highlight .rb-value{color:var(--grape); font-size:22px; font-family:'Baloo 2',sans-serif;}
+  .student-fields{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:560px){.student-fields{grid-template-columns:1fr;}}
+  .student-fields input{
+    width:100%; padding:10px 13px; border-radius:12px; border:2.5px solid #CFE6FF;
+    font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; color:var(--ink); background:#fff;
+  }
+  .student-fields input:focus{outline:none; border-color:var(--grape);}
+  .submit-status{margin-top:12px; padding:11px 15px; border-radius:14px; font-weight:800; font-size:13.5px; display:none;}
+  .submit-status.show{display:block;}
+  .submit-status.sending{background:#FFF3D6; color:#B9860C; border:2px solid #FFE0A3;}
+  .submit-status.ok{background:#DDF7E9; color:#1E8955; border:2px solid #B9E9CE;}
+  .submit-status.err{background:#FFE6E1; color:#D6493A; border:2px solid #FFC9C0;}
+  .submit-card{background:var(--paper); border:3px solid var(--line); border-radius:22px; padding:20px 24px; margin:20px 0; box-shadow:var(--shadow);}
+  .submit-card h4{font-size:17px; color:var(--grape); margin-bottom:4px;}
+  .submit-card p{color:var(--muted); font-weight:700; font-size:13.5px; margin:0 0 14px 0;}
+  .submit-btns{display:flex; gap:10px; flex-wrap:wrap;}
+  .btn.wa{background:linear-gradient(135deg,#25D366,#4fe08a); box-shadow:0 4px 0 #1CA854;}
+  .btn.wa:active{box-shadow:0 2px 0 #1CA854;}
+  .btn.email{background:linear-gradient(135deg,#2FC9BC,#61e0d4); box-shadow:0 4px 0 #1E9C86;}
+  .btn.email:active{box-shadow:0 2px 0 #1E9C86;}
+  .btn:disabled{opacity:.55; cursor:not-allowed;}
+
+  /* MENU TOGGLE (mobile) */
+  .menuToggle{
+    display:none; position:fixed; top:16px; left:16px; z-index:60;
+    width:46px; height:46px; border-radius:14px; border:2.5px solid var(--line);
+    background:var(--paper); box-shadow:var(--shadow); cursor:pointer;
+    align-items:center; justify-content:center; flex-direction:column; gap:4px;
+  }
+  .menuToggle span{display:block; width:20px; height:3px; border-radius:3px; background:var(--grape); transition:transform .2s ease, opacity .2s ease;}
+  .menuToggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menuToggle.open span:nth-child(2){opacity:0;}
+  .menuToggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .sidebarOverlay{display:none; position:fixed; inset:0; background:rgba(51,48,90,0.35); z-index:45;}
+
+  @media (max-width:880px){
+    .menuToggle{display:flex;}
+    .sidebar{
+      position:fixed; top:0; left:0; z-index:50; height:100vh;
+      transform:translateX(-105%); transition:transform .28s ease;
+      box-shadow:0 0 0 rgba(0,0,0,0);
+    }
+    .sidebar.open{transform:translateX(0); box-shadow:14px 0 30px rgba(51,48,90,0.18);}
+    .sidebarOverlay.show{display:block;}
+    .main{padding:88px 18px 100px 18px; max-width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<button class="menuToggle" id="menuToggle" aria-label="Buka/tutup menu" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+<div class="sidebarOverlay" id="sidebarOverlay"></div>
+
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="brand">
+      <svg class="mascot" viewBox="0 0 100 100"><use href="#mascotDef"/></svg>
+      <div class="tag">Kelas X · Fisika</div>
+      <h1>Petualangan<br>Vektor</h1>
+    </div>
+
+    <div class="xpbar">
+      <div class="lbl"><span>⭐ XP KAMU</span><span id="xpLabel">0 / 13</span></div>
+      <div class="track"><div class="fill" id="xpFill"></div></div>
+    </div>
+
+    <ul class="navlist" id="navlist">
+      <li><button data-target="s0" class="active"><span class="ic">🏁</span> Mulai Yuk!</button></li>
+      <li><button data-target="s1"><span class="ic">🧭</span> Lv.1 Kenalan Vektor</button></li>
+      <li><button data-target="s2"><span class="ic">📐</span> Lv.2 Bongkar Vektor</button></li>
+      <li><button data-target="s3"><span class="ic">⚔️</span> Lv.3 Gabung Vektor</button></li>
+      <li><button data-target="s4"><span class="ic">🧲</span> Lv.4 Vektor Satuan</button></li>
+      <li><button data-target="s5"><span class="ic">✨</span> Lv.5 Jurus Kali Vektor</button></li>
+    </ul>
+    <ul class="navlist">
+      <li class="quiz-link"><button data-target="squiz"><span class="ic">🏆</span> Boss Battle: Kuis!</button></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+
+    <!-- MASCOT DEF (hidden reusable svg symbol) -->
+    <svg class="mascot-defs" aria-hidden="true">
+      <defs>
+        <g id="mascotDef">
+          <ellipse cx="50" cy="58" rx="34" ry="30" fill="#9B7EDE"/>
+          <path d="M30 40 L50 12 L70 40 Z" fill="#FF6F61"/>
+          <circle cx="38" cy="55" r="6" fill="#fff"/>
+          <circle cx="62" cy="55" r="6" fill="#fff"/>
+          <circle cx="38" cy="56" r="3" fill="#33305A"/>
+          <circle cx="62" cy="56" r="3" fill="#33305A"/>
+          <path d="M38 70 Q50 80 62 70" stroke="#33305A" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+      </defs>
+    </svg>
+
+    <!-- 00 INTRO -->
+    <section id="s0" class="active">
+      <div class="eyebrow">🎮 Sebelum Mulai</div>
+      <h1 class="title">Yuk, Taklukkan Vektor Bareng-bareng!</h1>
+      <p class="lede">Pernah main game terus karaktermu harus lari "ke kanan sejauh 5 langkah"? Nah, itu udah vektor! Vektor cuma soal dua hal: <b>seberapa jauh/besar</b>, dan <b>ke arah mana</b>. Gampang kok, yuk mulai petualangannya!</p>
+
+      <div class="mascot-note">
+        <svg class="m" viewBox="0 0 100 100"><use href="#mascotDef"/></svg>
+        <p>Halo! Aku Vio, temen belajarmu hari ini. Kita bakal jelajah 5 level + 1 Boss Battle di akhir. Siap? Ayo gas! 🚀</p>
+      </div>
+
+      <div class="author-card">
+        <span class="ic">✍️</span>
+        <div>
+          <span class="lbl">Dibuat oleh</span>
+          <span class="name">Ratu Zachrien Qalbia Dwi Ridwan, S.Pd.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 Target Belajar Hari Ini</h3>
+        <ul class="tight">
+          <li>Ngerti apa itu vektor dan contohnya di kehidupan sehari-hari.</li>
+          <li>Bisa menggambarkan kejadian fisika pakai vektor dengan benar.</li>
+          <li>Paham bedanya menghitung angka biasa (skalar) sama menghitung vektor (yang punya arah), dan bisa nyelesain soalnya.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🗺️ Peta Petualangan</h3>
+        <p style="font-weight:600; color:var(--muted);">Klik menu di sebelah kiri buat pindah level. Level 3 punya <b>simulator seru</b> yang bisa kamu utak-atik sendiri!</p>
+        <ul class="tight">
+          <li>Lv.1 — Vektor itu apa sih, dan gimana cara nulisnya</li>
+          <li>Lv.2 — Membelah satu vektor jadi dua arah (kanan &amp; atas)</li>
+          <li>Lv.3 — Gabungin 2 vektor jadi 1 (3 cara: rangkai, jajargenjang, hitung angka)</li>
+          <li>Lv.4 — Vektor satuan, si penunjuk arah murni</li>
+          <li>Lv.5 — Dua jurus rahasia mengalikan vektor</li>
+          <li>🏆 — Boss Battle: 13 soal buat ngetes seberapa jago kamu</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 01 KENALAN VEKTOR -->
+    <section id="s1">
+      <div class="eyebrow">🧭 Level 1</div>
+      <h1 class="title">Kenalan sama Vektor</h1>
+      <p class="lede">Di dunia fisika, ada dua jenis "angka": yang cuma butuh <b>nilai doang</b>, sama yang butuh <b>nilai + arah</b>.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <h4>😴 Skalar — si simpel</h4>
+          <p>Cuma butuh satu angka, gak perlu arah. Contoh: berat badanmu 55 kg, suhu badan 36°C, waktu ujian 90 menit.</p>
+        </div>
+        <div class="card">
+          <h4>🚀 Vektor — si lengkap</h4>
+          <p>Butuh angka <b>dan</b> arah biar informasinya lengkap. Contoh: kamu jalan 10 meter <i>ke timur</i>, motor ngebut 60 km/jam <i>ke utara</i>, kamu dorong meja 50 N <i>ke depan</i>.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>✍️ Cara Nulis Vektor</h3>
+        <p>Semua cara di bawah ini artinya sama, cuma beda gaya nulis aja:</p>
+        <div class="formula"><span class="label">Ditebalin</span><b>A</b></div>
+        <div class="formula"><span class="label">Pakai anak panah di atas</span>A&#8407; <span style="font-family:'Nunito';font-weight:700;color:#5C7FB0;">(dibaca "vektor A")</span></div>
+        <div class="formula"><span class="label">Besarnya aja (tanpa arah)</span>|A&#8407;| atau A → selalu angka positif</div>
+        <p style="font-weight:600;">Gampangnya: vektor digambar sebagai <b>anak panah</b>. Panjang panah = seberapa besar. Arah panah = ke mana perginya.</p>
+      </div>
+
+      <div class="card">
+        <h3>🎲 Sifat-sifat Serunya</h3>
+        <ul class="tight">
+          <li><b>Kembar identik:</b> dua vektor dianggap sama kalau besar &amp; arahnya sama — walau digambar di tempat berbeda, dia tetap "vektor yang sama".</li>
+          <li><b>Vektor kebalikan (−A):</b> besarnya sama, tapi arahnya muter 180° (berlawanan total).</li>
+          <li><b>Dikali angka biasa:</b> kalau vektor dikali 2, panjangnya jadi 2x lipat. Kalau dikali −1, arahnya kebalik, panjangnya tetap.</li>
+          <li><b>Vektor nol:</b> besarnya 0, arahnya gak jelas. Contohnya, kalau kamu jalan muter terus balik lagi ke titik awal — perpindahanmu = 0.</li>
+        </ul>
+        <div class="example">
+          <span class="tag">Contoh nyata</span>
+          <p style="margin:6px 0 0 0; font-weight:600;">Google Maps nunjukkin <i>perpindahanmu</i> (vektor: jarak lurus + arah ke tujuan), bukan total <i>jarak yang kamu tempuh</i> (skalar: semua lekukan jalan yang dilewatin). Makanya rute jalan kaki kadang lebih "panjang" dari garis lurus di peta.</p>
+        </div>
+      </div>
+
+      <div id="practice-s1" class="practice-block"></div>
+    </section>
+
+    <!-- 02 KOMPONEN -->
+    <section id="s2">
+      <div class="eyebrow">📐 Level 2</div>
+      <h1 class="title">Membongkar Satu Vektor</h1>
+      <p class="lede">Satu vektor yang jalannya miring, sebenarnya bisa "dipecah" jadi dua gerakan: <b>ke samping</b> dan <b>ke atas</b>. Ini namanya komponen vektor.</p>
+
+      <div class="mascot-note">
+        <svg class="m" viewBox="0 0 100 100"><use href="#mascotDef"/></svg>
+        <p>Bayangin kamu jalan miring di taman. Kalau dilihat dari atas, "bayanganmu" bergerak ke kanan sekian meter, dan "bayanganmu" dari samping bergerak ke atas sekian meter. Nah, itulah komponen x dan y!</p>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="formula"><span class="label">Komponen mendatar (sumbu-x)</span>A<sub>x</sub> = A cos θ</div>
+          <div class="formula"><span class="label">Komponen tegak (sumbu-y)</span>A<sub>y</sub> = A sin θ</div>
+          <div class="formula"><span class="label">Balik lagi ke besar aslinya</span>A = √(A<sub>x</sub>² + A<sub>y</sub>²)</div>
+          <div class="formula"><span class="label">Cari arahnya</span>θ = arctan(A<sub>y</sub> / A<sub>x</sub>)</div>
+          <p style="color:var(--muted); font-weight:600; font-size:14px;">θ diukur mulai dari sumbu-x ke arah muter berlawanan jarum jam.</p>
+        </div>
+        <svg viewBox="0 0 300 240" id="compSvg"></svg>
+      </div>
+
+      <div class="card">
+        <h3>📝 Contoh Soal Gampang</h3>
+        <div class="example">
+          <span class="tag">Soal</span>
+          <p style="margin:6px 0; font-weight:600;">Kamu narik kotak dengan gaya 40 N, miring 30° dari lantai. Berapa gaya yang "ke depan" dan yang "ke atas"?</p>
+          <p style="margin:6px 0; font-weight:700;">Jawab:</p>
+          <p class="mono" style="margin:0;">F<sub>x</sub> = 40 × cos30° ≈ 34,6 N (ke depan)<br>F<sub>y</sub> = 40 × sin30° = 20 N (ke atas)</p>
+          <p style="margin:6px 0 0 0; font-weight:600;">Jadi gayamu kayak lagi narik 34,6 N ke depan SEKALIGUS ngangkat 20 N ke atas, dalam satu tarikan!</p>
+        </div>
+      </div>
+
+      <div id="practice-s2" class="practice-block"></div>
+    </section>
+
+    <!-- 03 BENCH -->
+    <section id="s3">
+      <div class="eyebrow">⚔️ Level 3 · Simulator</div>
+      <h1 class="title">Gabungin Dua Vektor Jadi Satu</h1>
+      <p class="lede">Geser-geser panjang vektor <span class="pill a">A</span><span class="pill b">B</span> dan sudut di antara mereka. Coba semua cara di bawah — hasil akhirnya <span class="pill r">R</span> harus tetap sama!</p>
+
+      <div class="bench">
+        <div class="bench-top">
+          <div class="modebtns" id="modebtns">
+            <button data-mode="poligon" class="active">🧵 Rangkai (Poligon)</button>
+            <button data-mode="jajar">🪁 Jajargenjang</button>
+            <button data-mode="komponen">🧮 Hitung Angka</button>
+          </div>
+        </div>
+        <div class="bench-grid">
+          <div><svg viewBox="0 0 480 380" id="benchSvg"></svg></div>
+          <div>
+            <div class="controls">
+              <div class="ctrl"><label>Panjang A <span class="val" id="valA">6</span></label><input type="range" id="rangeA" min="2" max="10" value="6" step="0.5"></div>
+              <div class="ctrl"><label>Panjang B <span class="val" id="valB">4</span></label><input type="range" id="rangeB" min="2" max="10" value="4" step="0.5"></div>
+              <div class="ctrl"><label>Sudut A ke B <span class="val" id="valTheta">60°</span></label><input type="range" id="rangeTheta" min="0" max="180" value="60" step="5"></div>
+            </div>
+            <div class="readout" id="readout"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🧵 Cara 1: Rangkai (Poligon)</h3>
+        <p style="font-weight:600;">Bayangin kamu jalan ikutin vektor A dulu, sampai ujungnya, terus lanjut jalan ikutin vektor B. Vektor <b>R</b> adalah garis lurus dari titik awal kamu berangkat sampai titik akhir kamu berhenti. Cara ini paling asik dipakai kalau vektornya banyak, gak cuma dua!</p>
+      </div>
+      <div class="card">
+        <h3>🪁 Cara 2: Jajargenjang</h3>
+        <p style="font-weight:600;">Khusus buat <b>dua vektor</b> yang berangkat dari titik yang sama: gambar keduanya jadi dua sisi bentuk jajargenjang (kayak layang-layang miring), terus tarik <b>garis diagonal</b> dari titik awal — itulah resultannya!</p>
+        <div class="formula"><span class="label">Rumus cepat (aturan cosinus)</span>R = √(A² + B² + 2AB cos θ)</div>
+      </div>
+      <div class="card">
+        <h3>🧮 Cara 3: Hitung Angka (Analitis)</h3>
+        <p style="font-weight:600;">Cara paling teliti kalau vektornya banyak: pecah dulu tiap vektor jadi komponen x dan y (kayak di Level 2), jumlahin yang sejenis, baru gabung lagi jadi satu vektor akhir.</p>
+        <div class="formula"><span class="label">Langkahnya</span>
+          R<sub>x</sub> = A<sub>x</sub> + B<sub>x</sub> + …<br>
+          R<sub>y</sub> = A<sub>y</sub> + B<sub>y</sub> + …<br>
+          |R| = √(R<sub>x</sub>² + R<sub>y</sub>²)<br>
+          θ<sub>R</sub> = arctan(R<sub>y</sub> / R<sub>x</sub>)
+        </div>
+      </div>
+
+      <div id="practice-s3" class="practice-block"></div>
+    </section>
+
+    <!-- 04 VEKTOR SATUAN -->
+    <section id="s4">
+      <div class="eyebrow">🧲 Level 4</div>
+      <h1 class="title">Vektor Satuan, Si Kompas Ajaib</h1>
+      <p class="lede">Vektor satuan itu vektor spesial yang besarnya <b>selalu 1</b>. Fungsinya cuma satu: nunjukin arah, kayak jarum kompas.</p>
+
+      <div class="grid2">
+        <div>
+          <div class="formula"><span class="label">Cara bikin vektor satuan dari A</span>â = A&#8407; / |A&#8407;|</div>
+          <p style="font-weight:600;">Di dunia koordinat, ada 3 kompas bawaan:</p>
+          <ul class="tight">
+            <li><b>i&#770;</b> — nunjuk ke arah sumbu-x (kanan)</li>
+            <li><b>j&#770;</b> — nunjuk ke arah sumbu-y (atas)</li>
+            <li><b>k&#770;</b> — nunjuk ke arah sumbu-z (ke luar layar)</li>
+          </ul>
+          <p style="font-weight:600;">Vektor apa pun bisa ditulis pakai kompas-kompas ini:</p>
+          <div class="formula">A&#8407; = A<sub>x</sub> i&#770; + A<sub>y</sub> j&#770; + A<sub>z</sub> k&#770;</div>
+        </div>
+        <svg viewBox="0 0 280 240" id="unitSvg"></svg>
+      </div>
+
+      <div class="card">
+        <h3>➕➖ Jumlah &amp; Kurang Vektor Satuan</h3>
+        <p style="font-weight:600;">Karena i&#770;, j&#770;, k&#770; itu tegak lurus semua, gampang banget: tinggal jumlahin atau kurangin angka yang <b>sejenis</b> aja (i sama i, j sama j).</p>
+        <div class="formula">A&#8407; ± B&#8407; = (A<sub>x</sub> ± B<sub>x</sub>) i&#770; + (A<sub>y</sub> ± B<sub>y</sub>) j&#770; + (A<sub>z</sub> ± B<sub>z</sub>) k&#770;</div>
+        <div class="example">
+          <span class="tag">Contoh</span>
+          <p style="margin:6px 0; font-weight:600;">A&#8407; = 3i&#770; + 5j&#770; − 2k&#770; dan B&#8407; = −1i&#770; + 2j&#770; + 4k&#770;</p>
+          <p class="mono" style="margin:0;">A&#8407;+B&#8407; = (3−1)i&#770; + (5+2)j&#770; + (−2+4)k&#770; = 2i&#770; + 7j&#770; + 2k&#770;<br>A&#8407;−B&#8407; = (3+1)i&#770; + (5−2)j&#770; + (−2−4)k&#770; = 4i&#770; + 3j&#770; − 6k&#770;</p>
+        </div>
+      </div>
+
+      <div id="practice-s4" class="practice-block"></div>
+    </section>
+
+    <!-- 05 PERKALIAN -->
+    <section id="s5">
+      <div class="eyebrow">✨ Level 5</div>
+      <h1 class="title">Dua Jurus Rahasia Kali Vektor</h1>
+      <p class="lede">Ngaliin vektor itu beda sama ngaliin angka biasa — ada <b>2 jurus</b>, dan hasilnya beda jenis!</p>
+
+      <div class="card">
+        <h3>🎯 Jurus 1: Dot Product → hasilnya ANGKA</h3>
+        <div class="formula"><span class="label">Cara pakai sudut</span>A&#8407; · B&#8407; = |A&#8407;||B&#8407;| cos θ</div>
+        <div class="formula"><span class="label">Cara pakai komponen</span>A&#8407; · B&#8407; = A<sub>x</sub>B<sub>x</sub> + A<sub>y</sub>B<sub>y</sub> + A<sub>z</sub>B<sub>z</sub></div>
+        <p style="font-weight:600;">Dot product ngukur seberapa "searah" dua vektor. Kalau tegak lurus (90°), hasilnya 0 — soalnya gak ada yang "searah" sama sekali. Contoh nyata: usaha (kerja) saat kamu dorong benda, W = F&#8407;·d&#8407; = Fd cosθ. Kalau kamu dorong tegak lurus arah gerak, usahamu = 0 (sia-sia, gak ngefek!).</p>
+        <div class="example">
+          <span class="tag">Contoh</span>
+          <p style="margin:6px 0; font-weight:600;">A&#8407; = 2i&#770; + 3j&#770;, B&#8407; = 4i&#770; − 1j&#770;</p>
+          <p class="mono" style="margin:0;">A&#8407;·B&#8407; = (2)(4) + (3)(−1) = 8 − 3 = 5</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌪️ Jurus 2: Cross Product → hasilnya VEKTOR BARU</h3>
+        <div class="formula"><span class="label">Besarnya (pakai sudut)</span>|A&#8407; × B&#8407;| = |A&#8407;||B&#8407;| sin θ</div>
+        <p style="font-weight:600;">Arah hasilnya tegak lurus dari bidang A dan B, dicari pakai <b>aturan tangan kanan</b>: lengkungin jari tangan kanan dari arah A ke arah B, jempolmu nunjukin arah hasilnya.</p>
+        <div class="formula"><span class="label">Cara pakai komponen (determinan)</span>A&#8407; × B&#8407; = (A<sub>y</sub>B<sub>z</sub> − A<sub>z</sub>B<sub>y</sub>) i&#770; − (A<sub>x</sub>B<sub>z</sub> − A<sub>z</sub>B<sub>x</sub>) j&#770; + (A<sub>x</sub>B<sub>y</sub> − A<sub>y</sub>B<sub>x</sub>) k&#770;</div>
+        <p style="font-weight:600;">Ingat: A×B beda sama B×A (arahnya kebalik)! Contoh nyata: waktu kamu muter baut pakai kunci pas, itu namanya torsi, τ&#8407; = r&#8407; × F&#8407;.</p>
+        <div class="example">
+          <span class="tag">Contoh</span>
+          <p style="margin:6px 0; font-weight:600;">A&#8407; = 2i&#770;, B&#8407; = 3j&#770;</p>
+          <p class="mono" style="margin:0;">A&#8407;×B&#8407; = (0·0−0·3)i&#770; − (2·0−0·0)j&#770; + (2·3−0·0)k&#770; = 6k&#770;</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔢 Jurus 3: Cara Sarrus (buat mempercepat Cross Product)</h3>
+        <p style="font-weight:600;">Males hafalin rumus determinan yang panjang? Pakai <b>Metode Sarrus</b> aja — trik gambar yang bikin cross product jadi tinggal "tarik garis dan kalikan"!</p>
+        <p style="font-weight:600;">Caranya: tulis matriks 3×3-nya, lalu salin ulang <b>kolom 1 dan kolom 2</b> di sebelah kanan. Nanti kita tinggal kalikan angka-angka yang segaris diagonal.</p>
+
+        <div class="sarrus-wrap">
+          <table class="sarrus-grid">
+            <tr><td>î</td><td>ĵ</td><td>k̂</td><td class="copy">î</td><td class="copy">ĵ</td></tr>
+            <tr><td>A<sub>x</sub></td><td>A<sub>y</sub></td><td>A<sub>z</sub></td><td class="copy">A<sub>x</sub></td><td class="copy">A<sub>y</sub></td></tr>
+            <tr><td>B<sub>x</sub></td><td>B<sub>y</sub></td><td>B<sub>z</sub></td><td class="copy">B<sub>x</sub></td><td class="copy">B<sub>y</sub></td></tr>
+          </table>
+          <p style="font-size:12.5px; color:var(--muted); font-weight:700; margin:6px 0 14px 0;">↳ dua kolom paling kanan (yang agak pudar) itu cuma salinan kolom 1 &amp; 2.</p>
+
+          <div class="sarrus-legend">
+            <div class="sarrus-line pos">
+              <span class="dot"></span>
+              <b>3 diagonal turun ke kanan (tanda +):</b>
+              <span class="mono">î·A<sub>y</sub>·B<sub>z</sub> &nbsp;+&nbsp; ĵ·A<sub>z</sub>·B<sub>x</sub> &nbsp;+&nbsp; k̂·A<sub>x</sub>·B<sub>y</sub></span>
+            </div>
+            <div class="sarrus-line neg">
+              <span class="dot"></span>
+              <b>3 diagonal turun ke kiri (tanda −):</b>
+              <span class="mono">k̂·A<sub>y</sub>·B<sub>x</sub> &nbsp;+&nbsp; î·A<sub>z</sub>·B<sub>y</sub> &nbsp;+&nbsp; ĵ·A<sub>x</sub>·B<sub>z</sub></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="formula"><span class="label">Tinggal digabung: (jumlah diagonal +) dikurangi (jumlah diagonal −)</span>
+          A&#8407; × B&#8407; = (A<sub>y</sub>B<sub>z</sub> − A<sub>z</sub>B<sub>y</sub>) î + (A<sub>z</sub>B<sub>x</sub> − A<sub>x</sub>B<sub>z</sub>) ĵ + (A<sub>x</sub>B<sub>y</sub> − A<sub>y</sub>B<sub>x</sub>) k̂
+        </div>
+        <p style="font-weight:600; font-size:14px; color:var(--muted);">Hasilnya persis sama kok dengan rumus determinan di Jurus 2 — cuma di sini caranya lebih gampang diingat karena tinggal "gambar garis miring".</p>
+
+        <div class="example">
+          <span class="tag">Contoh (angka sama kayak Jurus 2, biar kelihatan hasilnya cocok)</span>
+          <p style="margin:6px 0; font-weight:600;">A&#8407; = 2î, B&#8407; = 3ĵ &nbsp;→&nbsp; artinya A<sub>x</sub>=2, A<sub>y</sub>=0, A<sub>z</sub>=0, dan B<sub>x</sub>=0, B<sub>y</sub>=3, B<sub>z</sub>=0.</p>
+          <table class="sarrus-grid mini">
+            <tr><td>î</td><td>ĵ</td><td>k̂</td><td class="copy">î</td><td class="copy">ĵ</td></tr>
+            <tr><td>2</td><td>0</td><td>0</td><td class="copy">2</td><td class="copy">0</td></tr>
+            <tr><td>0</td><td>3</td><td>0</td><td class="copy">0</td><td class="copy">3</td></tr>
+          </table>
+          <p class="mono" style="margin:8px 0 0 0;">Diagonal + : (î·0·0) + (ĵ·0·0) + (k̂·2·3) = 6k̂<br>Diagonal − : (k̂·0·0) + (î·0·3) + (ĵ·2·0) = 0<br>Hasil: A&#8407;×B&#8407; = 6k̂ − 0 = <b>6k̂</b> ✅ sama persis kayak Jurus 2!</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4>🆚 Angka Biasa vs Vektor: Bedanya Apa?</h4>
+        <p style="font-weight:600;">Ini kunci penting: kalau ngitung angka biasa (skalar), tinggal jumlah/kali langsung. Tapi kalau vektor, kita WAJIB mikirin arahnya juga — pakai gambar (rangkai/jajargenjang) atau pakai komponen (hitung angka), bukan asal jumlah angkanya aja.</p>
+        <table style="width:100%; border-collapse:collapse; margin-top:10px; font-size:14px;">
+          <tr style="border-bottom:2.5px solid var(--line); color:var(--muted); text-align:left;"><th style="padding:7px 4px;">Operasi</th><th>Angka Biasa</th><th>Vektor</th></tr>
+          <tr style="border-bottom:1.5px dashed var(--line);"><td style="padding:7px 4px; font-weight:700;">Jumlah</td><td>Langsung: 3+5=8</td><td>Harus tau arahnya dulu: 3 N + 5 N belum tentu 8 N!</td></tr>
+          <tr style="border-bottom:1.5px dashed var(--line);"><td style="padding:7px 4px; font-weight:700;">Kali</td><td>1 hasil: 3×5=15</td><td>2 jenis hasil beda: dot (angka) &amp; cross (vektor baru)</td></tr>
+          <tr><td style="padding:7px 4px; font-weight:700;">Ditulis</td><td>1 angka aja</td><td>Angka + arah (komponen/sudut)</td></tr>
+        </table>
+      </div>
+
+      <div id="practice-s5" class="practice-block"></div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="squiz">
+      <div class="eyebrow">🏆 Boss Battle</div>
+      <h1 class="title">Uji Kekuatan Vektor-mu!</h1>
+      <p class="lede">13 soal dari semua level. Jawab semua, terus pencet <b>Cek Jawaban</b> buat lihat skor + penjelasannya. Semangat! 💪</p>
+
+      <div class="student-card">
+        <h4>📝 Isi Dulu ya, Biar Guru Tau Ini Punya Siapa</h4>
+        <div class="student-fields">
+          <input type="text" id="studentName" placeholder="Nama lengkap" autocomplete="off">
+          <input type="text" id="studentClass" placeholder="Kelas (contoh: X-2)" autocomplete="off">
+        </div>
+        <p class="attempt-note" id="attemptNote">Kamu cuma punya <b>1 kali kesempatan</b> mengerjakan kuis ini, jadi pastikan yakin sebelum klik "Cek Jawaban"!</p>
+      </div>
+
+      <div class="result-banner" id="resultBanner" style="display:none;">
+        <div class="rb-row"><span class="rb-label">Nama</span><span class="rb-value" id="rbNama">-</span></div>
+        <div class="rb-row"><span class="rb-label">Kelas</span><span class="rb-value" id="rbKelas">-</span></div>
+        <div class="rb-row"><span class="rb-label">Percobaan</span><span class="rb-value" id="rbAttempt">-</span></div>
+        <div class="rb-row highlight"><span class="rb-label">Skor Akhir</span><span class="rb-value" id="rbScore">-</span></div>
+      </div>
+
+      <div id="quizContainer"></div>
+      <div class="quizbar">
+        <span class="score" id="scoreText">Terjawab: 0 / 13</span>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn ghost" id="resetBtn">🔄 Ulangi</button>
+          <button class="btn" id="checkBtn">✅ Cek Jawaban</button>
+        </div>
+      </div>
+      <div id="badgeArea"></div>
+
+      <div class="submit-card" id="submitCard" style="display:none;">
+        <h4>📸 Kumpulkan Hasil ke Bu Ratu</h4>
+        <p>Nama, kelas, dan skor kamu akan <b>otomatis terisi</b> di pesan WhatsApp. Kamu tinggal lampirkan screenshot kartu hasil di atas (opsional) lalu pencet kirim! Kalau tombol di bawah gak langsung kebuka (sinyal lagi jelek), pakai tombol "Salin Pesan" lalu paste sendiri ke chat WhatsApp Bu Ratu.</p>
+        <div class="submit-btns">
+          <button class="btn wa" id="sendWaBtn" type="button">📱 Buka WhatsApp Bu Ratu</button>
+          <button class="btn ghost" id="copyWaBtn" type="button">📋 Salin Pesan</button>
+        </div>
+        <div class="submit-status" id="submitStatus"></div>
+      </div>
+
+      <div class="sources">
+        <h3>📚 Sumber Belajar</h3>
+        <ol>
+          <li>Giancoli, D. C. <i>Physics: Principles with Applications</i>. Pearson Education.</li>
+          <li>Halliday, D., Resnick, R., &amp; Walker, J. <i>Fundamentals of Physics</i>. Wiley.</li>
+          <li>Kanginan, M. <i>Fisika untuk SMA/MA Kelas X</i>. Erlangga.</li>
+          <li>Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi RI. <i>Buku Siswa Fisika Kelas X</i>.</li>
+        </ol>
+      </div>
+
+      <div class="footspace"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+/* MENU TOGGLE (mobile) */
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openSidebar(){
+  sidebar.classList.add('open');
+  sidebarOverlay.classList.add('show');
+  menuToggle.classList.add('open');
+  menuToggle.setAttribute('aria-expanded','true');
+}
+function closeSidebar(){
+  sidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('show');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded','false');
+}
+menuToggle.addEventListener('click', ()=>{
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+/* NAVIGATION */
+const navButtons = document.querySelectorAll('.navlist button');
+const sections = document.querySelectorAll('section');
+navButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    navButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    sections.forEach(s=>s.classList.remove('active'));
+    document.getElementById(btn.dataset.target).classList.add('active');
+    window.scrollTo(0,0);
+    if(window.innerWidth<=880) closeSidebar();
+  });
+});
+
+/* SVG HELPERS */
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+function arrow(svg,x1,y1,x2,y2,color,label,labelColor){
+  const id='ah-'+Math.random().toString(36).slice(2,8);
+  const defs = svg.querySelector('defs') || svg.appendChild(el('defs',{}));
+  const marker = el('marker',{id, markerWidth:9, markerHeight:9, refX:6.5, refY:3.5, orient:'auto', markerUnits:'strokeWidth'});
+  marker.appendChild(el('path',{d:'M0,0 L0,7 L8,3.5 z', fill:color}));
+  defs.appendChild(marker);
+  svg.appendChild(el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':4,'stroke-linecap':'round','marker-end':`url(#${id})`}));
+  if(label){
+    const tx=x1+(x2-x1)*0.55, ty=y1+(y2-y1)*0.55;
+    const t=el('text',{x:tx,y:ty-10,fill:labelColor||color,'font-size':15,'font-family':'Baloo 2, sans-serif','font-weight':700});
+    t.textContent=label; svg.appendChild(t);
+  }
+}
+function dashline(svg,x1,y1,x2,y2,color){ svg.appendChild(el('line',{x1,y1,x2,y2,stroke:color,'stroke-width':2,'stroke-dasharray':'5,5',opacity:0.55})); }
+function txt(svg,x,y,str,color,size){ const t=el('text',{x,y,fill:color,'font-size':size||13,'font-family':'Nunito, sans-serif','font-weight':800}); t.textContent=str; svg.appendChild(t); return t; }
+
+/* LEVEL 2 DIAGRAM */
+function drawComponent(){
+  const svg = document.getElementById('compSvg'); svg.innerHTML='';
+  const ox=40, oy=200; const A=150, theta=35*Math.PI/180;
+  const ex=ox+A*Math.cos(theta), ey=oy-A*Math.sin(theta);
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:270,y2:oy,stroke:'#C7C2E8','stroke-width':2}));
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox,y2:20,stroke:'#C7C2E8','stroke-width':2}));
+  dashline(svg, ex,ey, ex,oy, '#FFC93C');
+  dashline(svg, ex,ey, ox,ey, '#2FC9BC');
+  arrow(svg, ox,oy, ex,ey, '#9B7EDE', 'A', '#9B7EDE');
+  arrow(svg, ox,oy, ex,oy, '#2FC9BC', 'Ax', '#2FC9BC');
+  arrow(svg, ox,oy, ox,ey, '#FFC93C', 'Ay', '#B9860C');
+  txt(svg, ox+18, oy-14, 'θ', '#7A759C', 14);
+  txt(svg, 260, oy+18, 'x', '#7A759C', 13);
+  txt(svg, ox-16, 28, 'y', '#7A759C', 13);
+}
+drawComponent();
+
+/* LEVEL 4 DIAGRAM */
+function drawUnit(){
+  const svg=document.getElementById('unitSvg'); svg.innerHTML='';
+  const ox=40, oy=200;
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:250,y2:oy,stroke:'#C7C2E8','stroke-width':2}));
+  svg.appendChild(el('line',{x1:ox,y1:oy,x2:ox,y2:20,stroke:'#C7C2E8','stroke-width':2}));
+  arrow(svg, ox,oy, ox+70,oy, '#2FC9BC', 'i', '#2FC9BC');
+  arrow(svg, ox,oy, ox,oy-70, '#FFC93C', 'j', '#B9860C');
+  arrow(svg, ox,oy, ox+120,oy-90, '#9B7EDE', 'Â', '#9B7EDE');
+  txt(svg, 240, oy+18, 'x', '#7A759C', 13);
+  txt(svg, ox-16, 28, 'y', '#7A759C', 13);
+}
+drawUnit();
+
+/* LEVEL 3 BENCH */
+const rangeA=document.getElementById('rangeA'), rangeB=document.getElementById('rangeB'), rangeTheta=document.getElementById('rangeTheta');
+const valA=document.getElementById('valA'), valB=document.getElementById('valB'), valTheta=document.getElementById('valTheta');
+const modebtns=document.querySelectorAll('#modebtns button');
+let mode='poligon'; const SCALE=24;
+modebtns.forEach(b=>b.addEventListener('click', ()=>{ modebtns.forEach(x=>x.classList.remove('active')); b.classList.add('active'); mode=b.dataset.mode; drawBench(); }));
+[rangeA,rangeB,rangeTheta].forEach(r=>r.addEventListener('input', drawBench));
+
+function drawBench(){
+  const A=parseFloat(rangeA.value), B=parseFloat(rangeB.value), thetaDeg=parseFloat(rangeTheta.value);
+  const theta=thetaDeg*Math.PI/180;
+  valA.textContent=A; valB.textContent=B; valTheta.textContent=thetaDeg+'°';
+  const Ax=A, Ay=0, Bx=B*Math.cos(theta), By=B*Math.sin(theta);
+  const Rx=Ax+Bx, Ry=Ay+By, Rmag=Math.sqrt(Rx*Rx+Ry*Ry), Rang=Math.atan2(Ry,Rx)*180/Math.PI;
+  const cosineR=Math.sqrt(A*A+B*B+2*A*B*Math.cos(theta));
+  const svg=document.getElementById('benchSvg'); svg.innerHTML='';
+  const ox=60, oy=300;
+  function toScreen(x,y){ return [ox+x*SCALE, oy-y*SCALE]; }
+  svg.appendChild(el('line',{x1:20,y1:oy,x2:460,y2:oy,stroke:'#DCD6F5','stroke-width':2}));
+  svg.appendChild(el('line',{x1:ox,y1:20,x2:ox,y2:360,stroke:'#DCD6F5','stroke-width':2}));
+
+  if(mode==='poligon'){
+    const [ax,ay]=toScreen(Ax,Ay), [bx,by]=toScreen(Ax+Bx,Ay+By);
+    arrow(svg, ox,oy, ax,ay, '#2FC9BC', 'A', '#2FC9BC');
+    arrow(svg, ax,ay, bx,by, '#FFC93C', 'B', '#B9860C');
+    arrow(svg, ox,oy, bx,by, '#9B7EDE', 'R', '#9B7EDE');
+    txt(svg, 300, 40, '🧵 Ujung A → pangkal B', '#7A759C', 12);
+  } else if(mode==='jajar'){
+    const [ax,ay]=toScreen(Ax,Ay), [bx,by]=toScreen(Bx,By), [rx,ry]=toScreen(Rx,Ry);
+    arrow(svg, ox,oy, ax,ay, '#2FC9BC', 'A', '#2FC9BC');
+    arrow(svg, ox,oy, bx,by, '#FFC93C', 'B', '#B9860C');
+    dashline(svg, ax,ay, rx,ry, '#FFC93C');
+    dashline(svg, bx,by, rx,ry, '#2FC9BC');
+    arrow(svg, ox,oy, rx,ry, '#9B7EDE', 'R', '#9B7EDE');
+    txt(svg, 300, 40, '🪁 R = garis diagonal', '#7A759C', 12);
+  } else {
+    const [ax,ay]=toScreen(Ax,Ay), [rx,ry]=toScreen(Rx,Ry);
+    dashline(svg, rx,ry, rx,oy, '#B7B2D6');
+    dashline(svg, rx,ry, ox,ry, '#B7B2D6');
+    arrow(svg, ox,oy, ax,ay, '#2FC9BC', 'A', '#2FC9BC');
+    arrow(svg, ax,ay, toScreen(Ax+Bx,Ay+By)[0], toScreen(Ax+Bx,Ay+By)[1], '#FFC93C', 'B', '#B9860C');
+    arrow(svg, ox,oy, rx,ry, '#9B7EDE', 'R', '#9B7EDE');
+    txt(svg, rx+8, oy+18, 'Rx', '#7A759C', 12);
+    txt(svg, ox-32, ry-6, 'Ry', '#7A759C', 12);
+  }
+  document.getElementById('readout').innerHTML = `
+    <div class="row"><span>Ax</span><b>${Ax.toFixed(2)}</b></div>
+    <div class="row"><span>Ay</span><b>${Ay.toFixed(2)}</b></div>
+    <div class="row"><span>Bx</span><b>${Bx.toFixed(2)}</b></div>
+    <div class="row"><span>By</span><b>${By.toFixed(2)}</b></div>
+    <div class="row"><span>Rx = Ax+Bx</span><b>${Rx.toFixed(2)}</b></div>
+    <div class="row"><span>Ry = Ay+By</span><b>${Ry.toFixed(2)}</b></div>
+    <div class="row"><span>|R| (dari komponen)</span><b>${Rmag.toFixed(2)}</b></div>
+    <div class="row"><span>|R| (rumus cosinus)</span><b>${cosineR.toFixed(2)}</b></div>
+    <div class="row"><span>Arah R</span><b>${Rang.toFixed(1)}°</b></div>
+  `;
+}
+drawBench();
+
+/* MINI LATIHAN PER LEVEL */
+const practiceData = {
+  s1: {
+    title:"✏️ Latihan Level 1",
+    note:"Cek dulu pemahamanmu sebelum lanjut ke Level 2!",
+    items:[
+      { q:"Dari daftar ini, mana yang termasuk besaran SKALAR (gak butuh arah)?", opts:["Kecepatan","Gaya","Massa","Perpindahan"], correct:2,
+        exp:"Massa cuma butuh angka, gak perlu arah. Kecepatan, gaya, dan perpindahan semuanya vektor karena butuh arah." },
+      { q:"Kalau sebuah vektor dikali dengan −1, apa yang terjadi?", opts:["Besarnya jadi negatif","Arahnya kebalik 180°, besarnya tetap","Vektornya hilang jadi nol","Arahnya tetap, besarnya kebalik"], correct:1,
+        exp:"Dikali −1 cuma membalik arah 180°. Besarnya (panjangnya) tetap sama, gak berubah." },
+      { q:"Notasi |A⃗| dalam vektor artinya...", opts:["Arah vektor A","Besar (panjang) vektor A","Vektor satuan dari A","Komponen vektor A"], correct:1,
+        exp:"Tanda garis dua di sekitar vektor artinya kita cuma ambil besarnya aja, hasilnya selalu angka positif." }
+    ]
+  },
+  s2: {
+    title:"✏️ Latihan Level 2",
+    note:"Yuk pastikan kamu paham cara membongkar vektor jadi komponen!",
+    items:[
+      { q:"Vektor gaya 20 N tepat searah sumbu-x (sudut 0°). Berapa komponen Fy-nya?", opts:["20 N","0 N","10 N","20√2 N"], correct:1,
+        exp:"Fy = F sinθ = 20 × sin0° = 20 × 0 = 0 N. Karena vektornya lurus di sumbu-x, gak ada komponen ke atas sama sekali." },
+      { q:"Rumus yang benar untuk komponen sumbu-x sebuah vektor adalah...", opts:["Ax = A sin θ","Ax = A cos θ","Ax = A tan θ","Ax = A / cos θ"], correct:1,
+        exp:"Komponen mendatar (sumbu-x) selalu pakai cos θ, sedangkan komponen tegak (sumbu-y) pakai sin θ." },
+      { q:"Jika Ax = 3 dan Ay = 4, berapa besar vektor A yang sebenarnya?", opts:["7","5","1","12"], correct:1,
+        exp:"A = √(Ax²+Ay²) = √(9+16) = √25 = 5. Ini pola Pythagoras 3-4-5 yang sering muncul!" }
+    ]
+  },
+  s3: {
+    title:"✏️ Latihan Level 3",
+    note:"Coba dulu tanpa geser slider di atas, biar makin paham!",
+    items:[
+      { q:"Dua vektor SEARAH (sudut 0°) besarnya 4 dan 6. Berapa resultan maksimalnya?", opts:["2","10","24","√52"], correct:1,
+        exp:"Kalau searah, tinggal dijumlah langsung: R = 4+6 = 10. Ini nilai resultan PALING BESAR yang mungkin." },
+      { q:"Dua vektor BERLAWANAN arah (sudut 180°) besarnya 7 dan 3. Berapa resultannya?", opts:["10","4","21","√58"], correct:1,
+        exp:"Kalau berlawanan arah, tinggal dikurangi: R = 7−3 = 4. Ini nilai resultan PALING KECIL yang mungkin." },
+      { q:"Mau gabungin 5 vektor sekaligus secara gambar, metode paling pas dipakai adalah...", opts:["Jajargenjang","Rangkai (poligon)","Dot product","Vektor satuan"], correct:1,
+        exp:"Metode rangkai (poligon) bisa terus disambung buat vektor ke-3, ke-4, ke-5, dst. Jajargenjang cuma enak dipakai buat 2 vektor." }
+    ]
+  },
+  s4: {
+    title:"✏️ Latihan Level 4",
+    note:"Sebelum lanjut ke jurus perkalian, cek dulu pemahaman vektor satuanmu!",
+    items:[
+      { q:"Vektor satuan itu selalu punya besar...", opts:["0","1","Tergantung vektornya","10"], correct:1,
+        exp:"Vektor satuan itu spesial karena besarnya SELALU 1, fungsinya cuma nunjukin arah." },
+      { q:"Vektor A = 6i − 8j. Berapa besar (panjang) vektor A?", opts:["2","10","14","48"], correct:1,
+        exp:"|A| = √(6²+(−8)²) = √(36+64) = √100 = 10." },
+      { q:"Vektor satuan mana yang menunjuk searah sumbu-y positif?", opts:["i", "j","k","Â"], correct:1,
+        exp:"j&#770; adalah kompas bawaan yang nunjuk ke arah sumbu-y (atas). i&#770; ke sumbu-x, k&#770; ke sumbu-z." }
+    ]
+  },
+  s5: {
+    title:"✏️ Latihan Level 5",
+    note:"Terakhir nih sebelum Boss Battle — pastikan jurusmu udah mantap!",
+    items:[
+      { q:"Dot product dua vektor yang TEGAK LURUS (90°) hasilnya...", opts:["Paling besar","Nol","Negatif","Sama dengan perkalian besarnya"], correct:1,
+        exp:"cos90° = 0, jadi A⃗·B⃗ = |A||B|×0 = 0. Gak ada bagian yang searah sama sekali." },
+      { q:"Hasil dari cross product (perkalian silang) dua vektor berbentuk...", opts:["Angka (skalar)","Vektor baru","Sudut","Panjang saja"], correct:1,
+        exp:"Beda dari dot product, cross product menghasilkan VEKTOR BARU yang arahnya tegak lurus dari bidang kedua vektor asalnya." },
+      { q:"Diketahui A = 2i dan B = 3j. Berapa hasil A⃗ · B⃗ (dot product)?", opts:["6","0","5","−6"], correct:1,
+        exp:"A·B = AxBx+AyBy = (2)(0)+(0)(3) = 0. Karena A cuma di sumbu-x dan B cuma di sumbu-y, keduanya tegak lurus, jadi dot product-nya 0." },
+      { q:"Di Metode Sarrus, langkah pertama sebelum kita kalikan diagonal adalah...", opts:["Menghapus baris pertama (î, ĵ, k̂)","Menyalin ulang kolom 1 dan 2 di sebelah kanan matriks","Membalik urutan A dan B","Mengubah semua angka jadi positif"], correct:1,
+        exp:"Trik Sarrus dimulai dengan menyalin ulang dua kolom pertama di sebelah kanan matriks 3×3, baru setelah itu kita tarik garis diagonal dan kalikan." }
+    ]
+  }
+};
+
+function renderPractice(){
+  Object.keys(practiceData).forEach(key=>{
+    const container = document.getElementById('practice-'+key);
+    if(!container) return;
+    const data = practiceData[key];
+    let html = `<div class="practice-header"><span class="ptag">${data.title}</span><p>${data.note}</p></div>`;
+    container.innerHTML = html;
+    data.items.forEach((item, qi)=>{
+      const card = document.createElement('div'); card.className='miniq';
+      card.innerHTML = `<div class="miniq-num">Cek Paham ${qi+1}</div><p class="miniq-text">${item.q}</p>`;
+      item.opts.forEach((opt, oi)=>{
+        const b = document.createElement('button'); b.className='miniopt'; b.innerHTML = opt;
+        b.addEventListener('click', ()=>{
+          const opts = card.querySelectorAll('.miniopt');
+          opts.forEach(o=>o.disabled=true);
+          if(oi===item.correct){
+            b.classList.add('correct');
+          } else {
+            b.classList.add('wrong');
+            opts[item.correct].classList.add('correct');
+          }
+          const exp = card.querySelector('.miniexplain');
+          exp.classList.add('show');
+        });
+        card.appendChild(b);
+      });
+      const exp = document.createElement('div'); exp.className='miniexplain'; exp.textContent = item.exp;
+      card.appendChild(exp);
+      container.appendChild(card);
+    });
+  });
+}
+renderPractice();
+
+/* QUIZ DATA */
+const quizData = [
+  { q:"Berikut ini yang merupakan kelompok besaran vektor adalah...", opts:["Massa, waktu, dan suhu","Gaya, kecepatan, dan perpindahan","Jarak, laju, dan energi","Usaha, daya, dan volume"], correct:1,
+    exp:"Besaran vektor adalah besaran yang punya nilai (besar) sekaligus arah. Gaya, kecepatan, dan perpindahan semuanya butuh arah supaya informasinya lengkap. Sementara massa, waktu, suhu, jarak, laju, energi, usaha, daya, dan volume tergolong besaran skalar karena cukup dinyatakan dengan angka saja, tanpa arah." },
+  { q:"Diketahui notasi |A⃗| = 15 satuan. Pernyataan yang tepat mengenai notasi tersebut adalah...", opts:["Vektor A⃗ memiliki 15 komponen","Besar (magnitude) vektor A⃗ adalah 15 satuan","Vektor A⃗ membentuk sudut 15° terhadap sumbu acuan","Terdapat 15 buah vektor A⃗"], correct:1,
+    exp:"Tanda garis dua sejajar |...| menyatakan besar (magnitude) sebuah vektor, yaitu panjang vektor tanpa memperhatikan arahnya. Nilai besar vektor selalu bernilai positif, jadi |A⃗| = 15 berarti panjang vektor A⃗ adalah 15 satuan." },
+  { q:"Sebuah gaya F = 40 N membentuk sudut 30° terhadap sumbu-x positif. Besar komponen gaya pada sumbu-x (Fₓ) adalah... (cos30° ≈ 0,87)", opts:["20 N","34,6 N","40 N","46,2 N"], correct:1,
+    exp:"Komponen searah sumbu-x dihitung dengan rumus Fₓ = F cos θ.\nFₓ = 40 × cos30° = 40 × 0,87 = 34,6 N.\nIngat: komponen searah sumbu-x SELALU memakai fungsi cosinus." },
+  { q:"Masih dari soal gaya F = 40 N pada sudut 30° sebelumnya, besar komponen gaya pada sumbu-y (Fᵧ) adalah... (sin30° = 0,5)", opts:["20 N","34,6 N","40 N","10 N"], correct:0,
+    exp:"Komponen searah sumbu-y dihitung dengan rumus Fᵧ = F sin θ.\nFᵧ = 40 × sin30° = 40 × 0,5 = 20 N.\nIngat: komponen searah sumbu-y SELALU memakai fungsi sinus." },
+  { q:"Untuk menjumlahkan lebih dari dua vektor sekaligus secara grafis (digambar), metode yang paling praktis digunakan adalah metode...", opts:["Jajargenjang","Poligon (segitiga berantai)","Perkalian titik (dot product)","Perkalian silang (cross product)"], correct:1,
+    exp:"Metode poligon menggambar vektor secara berurutan: ujung vektor pertama jadi pangkal vektor kedua, dan seterusnya. Resultan digambar dari pangkal vektor pertama menuju ujung vektor terakhir. Metode jajargenjang hanya praktis dipakai untuk dua vektor saja." },
+  { q:"Dua buah gaya segaris bekerja pada sebuah benda: F₁ = 15 N ke arah timur dan F₂ = 9 N ke arah barat. Besar resultan gaya yang bekerja pada benda adalah...", opts:["24 N ke arah timur","6 N ke arah timur","6 N ke arah barat","24 N ke arah barat"], correct:1,
+    exp:"Karena kedua gaya segaris tapi berlawanan arah, resultan dicari dengan mengurangkan besarnya:\nR = F₁ − F₂ = 15 N − 9 N = 6 N.\nArah resultan mengikuti gaya yang lebih besar, yaitu F₁ (timur). Jadi resultannya 6 N ke arah timur." },
+  { q:"Dua buah vektor gaya saling tegak lurus, yaitu A = 6 N dan B = 8 N. Besar resultan kedua vektor tersebut adalah...", opts:["2 N","10 N","14 N","48 N"], correct:1,
+    exp:"Karena kedua vektor saling tegak lurus (sudut 90°), berlaku dalil Pythagoras:\nR = √(A² + B²) = √(6² + 8²) = √(36 + 64) = √100 = 10 N.\nCara cepatnya: kalau tegak lurus, resultannya selalu jadi 'sisi miring segitiga siku-siku'." },
+  { q:"Dua buah vektor gaya F₁ = 6 N dan F₂ = 8 N mengapit sudut 60° satu sama lain. Besar resultan kedua gaya tersebut adalah... (cos60° = 0,5)", opts:["10 N","12,2 N","14 N","2 N"], correct:1,
+    exp:"Karena sudutnya bukan 90°, gunakan rumus resultan dua vektor:\nR = √(F₁² + F₂² + 2·F₁·F₂·cosθ)\nR = √(36 + 64 + 2×6×8×0,5) = √(100 + 48) = √148 ≈ 12,2 N." },
+  { q:"Diketahui vektor A⃗ = 3î + 4ĵ dan B⃗ = −î + 2ĵ. Vektor resultan R⃗ = A⃗ + B⃗ adalah...", opts:["2î + 6ĵ","4î + 2ĵ","2î + 2ĵ","3î + 6ĵ"], correct:0,
+    exp:"Jumlahkan komponen yang sejenis (î dengan î, ĵ dengan ĵ):\nRₓ = 3 + (−1) = 2\nRᵧ = 4 + 2 = 6\nJadi R⃗ = 2î + 6ĵ." },
+  { q:"Diketahui vektor A⃗ = 3î + 4ĵ. Vektor satuan (Â) yang searah dengan A⃗ adalah...", opts:["3î + 4ĵ","0,6î + 0,8ĵ","5î + 5ĵ","0,75î + ĵ"], correct:1,
+    exp:"Cari dulu besar vektornya: |A⃗| = √(3² + 4²) = √25 = 5.\nVektor satuan Â = A⃗ ÷ |A⃗| = (3/5)î + (4/5)ĵ = 0,6î + 0,8ĵ.\nCiri vektor satuan: besarnya selalu tepat 1, cek lagi: √(0,6² + 0,8²) = √1 = 1 ✅" },
+  { q:"Diketahui A⃗ = 2î + 3ĵ dan B⃗ = 4î − ĵ. Hasil perkalian titik (dot product) A⃗ · B⃗ adalah...", opts:["5","8","11","−1"], correct:0,
+    exp:"Dot product dihitung dengan mengalikan komponen yang sejenis lalu menjumlahkannya:\nA⃗ · B⃗ = (Aₓ×Bₓ) + (Aᵧ×Bᵧ) = (2×4) + (3×(−1)) = 8 − 3 = 5.\nHasil dot product berupa sebuah angka (skalar), bukan vektor baru." },
+  { q:"Arah vektor hasil perkalian silang (cross product) A⃗ × B⃗ ditentukan dengan menggunakan...", opts:["Aturan tangan kanan","Aturan tangan kiri","Arah yang sama dengan vektor A⃗","Arah yang selalu sejajar sumbu-x"], correct:0,
+    exp:"Hasil cross product berupa vektor baru yang tegak lurus terhadap kedua vektor asal. Arahnya ditentukan dengan aturan tangan kanan: lengkungkan jari-jari tangan kanan dari arah A⃗ menuju B⃗, maka ibu jari menunjukkan arah A⃗ × B⃗." },
+  { q:"Diketahui A⃗ = 2î + 3ĵ dan B⃗ = 4î + 5ĵ (kedua vektor terletak pada bidang xy, sehingga komponen z = 0). Dengan menggunakan Metode Sarrus, hasil dari A⃗ × B⃗ adalah...", opts:["−2k̂","2k̂","22k̂","−22k̂"], correct:0,
+    exp:"Susun matriks Sarrus-nya, lalu salin ulang kolom 1 dan 2 di sebelah kanan:\nî   ĵ   k̂  |  î   ĵ\n2   3   0  |  2   3\n4   5   0  |  4   5\n\nDiagonal turun ke kanan (tanda +):\nî·3·0 + ĵ·0·4 + k̂·2·5 = 0 + 0 + 10k̂ = 10k̂\n\nDiagonal turun ke kiri (tanda −):\nk̂·3·4 + î·0·5 + ĵ·2·0 = 12k̂ + 0 + 0 = 12k̂\n\nHasil akhir = (diagonal +) − (diagonal −) = 10k̂ − 12k̂ = −2k̂.\nSama persis dengan hasil rumus determinan biasa, cuma lewat Sarrus lebih cepat karena tinggal tarik garis miring dan kalikan." }
+];
+
+const quizContainer = document.getElementById('quizContainer');
+let userAnswers = new Array(quizData.length).fill(null);
+let lastScore = 0;
+
+function renderQuiz(){
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, qi)=>{
+    const card = document.createElement('div'); card.className='qcard';
+    card.innerHTML = `<div class="qnum">Soal ${qi+1} dari ${quizData.length}</div><p class="qtext">${item.q}</p>`;
+    item.opts.forEach((opt, oi)=>{
+      const b = document.createElement('button'); b.className='opt'; b.textContent=opt;
+      b.addEventListener('click', ()=>{
+        if(card.classList.contains('locked')) return;
+        userAnswers[qi]=oi;
+        card.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+        b.classList.add('selected');
+        updateXP();
+      });
+      card.appendChild(b);
+    });
+    const exp = document.createElement('div'); exp.className='explain'; exp.textContent=item.exp;
+    card.appendChild(exp);
+    quizContainer.appendChild(card);
+  });
+}
+renderQuiz();
+
+function updateXP(){
+  const answered = userAnswers.filter(a=>a!==null).length;
+  document.getElementById('scoreText').textContent = `Terjawab: ${answered} / ${quizData.length}`;
+  document.getElementById('xpLabel').textContent = `${answered} / ${quizData.length}`;
+  document.getElementById('xpFill').style.width = (answered/quizData.length*100)+'%';
+}
+
+/* SISTEM BATAS PERCOBAAN */
+const MAX_ATTEMPTS = 1;
+
+function attemptKey(nama, kelas){
+  return 'vektorQuizAttempts_' + (nama+'|'+kelas).toLowerCase().trim().replace(/\s+/g,'');
+}
+function getAttemptsUsed(nama, kelas){
+  try{ const v = localStorage.getItem(attemptKey(nama,kelas)); return v ? parseInt(v,10) : 0; }
+  catch(e){ return 0; }
+}
+function setAttemptsUsed(nama, kelas, n){
+  try{ localStorage.setItem(attemptKey(nama,kelas), n); }catch(e){}
+}
+
+function refreshAttemptNote(){
+  const nama = document.getElementById('studentName').value.trim();
+  const kelas = document.getElementById('studentClass').value.trim();
+  const note = document.getElementById('attemptNote');
+  if(!nama || !kelas){
+    note.textContent = 'Kamu cuma punya 1 kali kesempatan mengerjakan kuis ini, jadi pastikan yakin sebelum klik "Cek Jawaban"!';
+    note.className = 'attempt-note';
+    return;
+  }
+  const used = getAttemptsUsed(nama, kelas);
+  const sisa = MAX_ATTEMPTS - used;
+  if(sisa<=0){
+    note.textContent = `⚠️ Kesempatanmu sudah habis (${used}/${MAX_ATTEMPTS} percobaan terpakai).`;
+    note.className = 'attempt-note warn';
+    lockQuizPermanently();
+  } else {
+    note.textContent = `Sisa kesempatanmu: ${sisa} dari ${MAX_ATTEMPTS} kali.`;
+    note.className = 'attempt-note';
+  }
+}
+document.getElementById('studentName').addEventListener('input', refreshAttemptNote);
+document.getElementById('studentClass').addEventListener('input', refreshAttemptNote);
+
+function lockQuizPermanently(){
+  document.getElementById('checkBtn').disabled = true;
+  document.getElementById('resetBtn').disabled = true;
+  document.getElementById('checkBtn').textContent = '🔒 Kesempatan Habis';
+  quizContainer.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+}
+
+document.getElementById('checkBtn').addEventListener('click', ()=>{
+  const nama = document.getElementById('studentName').value.trim();
+  const kelas = document.getElementById('studentClass').value.trim();
+
+  if(!nama || !kelas){
+    const note = document.getElementById('attemptNote');
+    note.textContent = '⚠️ Isi nama dan kelas dulu sebelum ngerjain ya!';
+    note.className = 'attempt-note warn';
+    document.getElementById('studentName').focus();
+    return;
+  }
+
+  const used = getAttemptsUsed(nama, kelas);
+  if(used >= MAX_ATTEMPTS){
+    refreshAttemptNote();
+    lockQuizPermanently();
+    return;
+  }
+
+  let score=0;
+  const cards = quizContainer.querySelectorAll('.qcard');
+  cards.forEach((card, qi)=>{
+    card.classList.add('locked');
+    const opts = card.querySelectorAll('.opt');
+    const correctIdx = quizData[qi].correct;
+    const chosen = userAnswers[qi];
+    opts.forEach((o,oi)=>{
+      o.disabled = true;
+      if(oi===correctIdx) o.classList.add('correct');
+      if(oi===chosen && chosen!==correctIdx) o.classList.add('wrong');
+    });
+    if(chosen===correctIdx) score++;
+    card.querySelector('.explain').classList.add('show');
+  });
+  document.getElementById('scoreText').textContent = `Skor: ${score} / ${quizData.length} ⭐`;
+  document.getElementById('xpLabel').textContent = `${score} / ${quizData.length}`;
+  document.getElementById('xpFill').style.width = (score/quizData.length*100)+'%';
+  lastScore = score;
+
+  const attemptsNow = used + 1;
+  setAttemptsUsed(nama, kelas, attemptsNow);
+  refreshAttemptNote();
+
+  let badgeHtml='';
+  if(score===quizData.length){
+    badgeHtml = `<div class="badge-row"><span class="badge" style="background:#FFF3D6;border-color:#FFC93C;color:#B9860C;">🏆 MASTER VEKTOR! Sempurna banget!</span></div>`;
+  } else if(score>=8){
+    badgeHtml = `<div class="badge-row"><span class="badge" style="background:#DDF7E9;border-color:#33B27A;color:#1E8955;">🥈 JAGOAN VEKTOR! Keren, dikit lagi sempurna!</span></div>`;
+  } else if(score>=5){
+    badgeHtml = `<div class="badge-row"><span class="badge" style="background:#E8F3FF;border-color:#7EA6E0;color:#2457B8;">🥉 PEJUANG VEKTOR! Lumayan, ulik lagi materinya ya!</span></div>`;
+  } else {
+    badgeHtml = `<div class="badge-row"><span class="badge" style="background:#FFE6E1;border-color:#FF6F61;color:#D6493A;">🌱 BARU MULAI! Yuk baca lagi tiap level, kamu pasti bisa!</span></div>`;
+  }
+  document.getElementById('badgeArea').innerHTML = badgeHtml;
+  document.getElementById('submitCard').style.display = 'block';
+
+  // update kartu hasil (nama + skor) di atas, biar bisa di-screenshot bareng
+  document.getElementById('resultBanner').style.display = 'block';
+  document.getElementById('rbNama').textContent = nama;
+  document.getElementById('rbKelas').textContent = kelas;
+  document.getElementById('rbAttempt').textContent = `${attemptsNow} dari ${MAX_ATTEMPTS}`;
+  document.getElementById('rbScore').textContent = `${score} / ${quizData.length}`;
+  document.getElementById('resultBanner').scrollIntoView({behavior:'smooth', block:'start'});
+
+  if(attemptsNow >= MAX_ATTEMPTS){
+    lockQuizPermanently();
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  const nama = document.getElementById('studentName').value.trim();
+  const kelas = document.getElementById('studentClass').value.trim();
+  const used = getAttemptsUsed(nama, kelas);
+  if(nama && kelas && used >= MAX_ATTEMPTS){
+    refreshAttemptNote();
+    lockQuizPermanently();
+    return;
+  }
+  userAnswers = new Array(quizData.length).fill(null);
+  document.getElementById('badgeArea').innerHTML='';
+  document.getElementById('submitCard').style.display='none';
+  renderQuiz();
+  updateXP();
+});
+
+/* KIRIM HASIL LANGSUNG VIA WHATSAPP (jalur utama — gak butuh koneksi khusus, cuma buka app WhatsApp) */
+const TEACHER_WA = "6281990375431";
+
+function buildWaMessage(){
+  const nama = document.getElementById('studentName').value.trim();
+  const kelas = document.getElementById('studentClass').value.trim();
+  return `Assalamu'alaikum Bu Ratu,\nSaya sudah selesai mengerjakan kuis Petualangan Vektor.\n\n*Nama:* ${nama || '...'}\n*Kelas:* ${kelas || '...'}\n*Skor:* ${lastScore} / ${quizData.length}\n\n(Screenshot hasil terlampir ya, Bu 🙏)`;
+}
+
+document.getElementById('sendWaBtn').addEventListener('click', ()=>{
+  const status = document.getElementById('submitStatus');
+  const pesan = buildWaMessage();
+  const url = `https://wa.me/${TEACHER_WA}?text=${encodeURIComponent(pesan)}`;
+
+  // location.href lebih andal buka deep-link WhatsApp di HP dibanding window.open,
+  // dan gak nunggu request internet apa pun dulu — langsung jalan begitu diklik.
+  window.location.href = url;
+
+  status.textContent = '📱 WhatsApp lagi dibuka dengan nama & skor sudah terisi! Kalau gak otomatis kebuka (sinyal jelek), pencet "Salin Pesan" lalu paste manual ya.';
+  status.className = 'submit-status show ok';
+});
+
+document.getElementById('copyWaBtn').addEventListener('click', async ()=>{
+  const status = document.getElementById('submitStatus');
+  const pesan = buildWaMessage();
+  try{
+    await navigator.clipboard.writeText(pesan);
+    status.textContent = '✅ Pesan berhasil disalin! Buka chat WhatsApp Bu Ratu manual, lalu paste & kirim.';
+    status.className = 'submit-status show ok';
+  }catch(e){
+    // fallback kalau clipboard API gak didukung browsernya
+    const ta = document.createElement('textarea');
+    ta.value = pesan; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e2){}
+    document.body.removeChild(ta);
+    status.textContent = '✅ Pesan disalin! Buka chat WhatsApp Bu Ratu manual, lalu paste & kirim.';
+    status.className = 'submit-status show ok';
+  }
+});
+</script>
+</body>
+</html>
